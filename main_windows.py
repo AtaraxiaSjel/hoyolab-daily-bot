@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     if run_scheduler or Config["RANDOMIZE"]:
         import scheduler
-        scheduler.configScheduler()
+        scheduler.windows_scheduler()
 
     main()
     time.sleep(2)
