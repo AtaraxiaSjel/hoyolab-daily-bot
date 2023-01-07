@@ -1,10 +1,10 @@
 {
   "BROWSER": "all",
-  "SERVER_UTC": 8,
-  "DELAY_MINUTE": 0,
+  "SERVER_UTC": 1,
+  "DELAY_MINUTE": 10,
   "RANDOMIZE": true,
   "RANDOM_RANGE": 3600,
   "ACT_ID": "e202102251931481",
-  "DOMAIN_NAME": ".mihoyo.com",
+  "DOMAIN_NAME": ".hoyolab.com",
   "SCHEDULER_NAME": "HoyolabCheckInBot"
 }
