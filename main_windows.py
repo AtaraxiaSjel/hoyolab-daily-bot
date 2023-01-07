@@ -23,7 +23,7 @@ else:
     exec_path = "run.bat"
 
 # SETUP LOGGING
-log = open(os.path.join(app_path, 'botlog.txt'), 'a+')
+log = open(os.path.join(app_path, 'botlog.log'), 'a+')
 
 # SETUP CONFIG
 config = None
