@@ -7,19 +7,13 @@ from random import randint
 from datetime import datetime, timedelta
 from config import Config
 
-# INITIALIZE PROGRAM ENVIRONMENT
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    # if running a frozen executable, that is the execute target
-    execute_target = Path(sys.executable)
-    app_path = Path(sys.executable).parent
-else:
-    # if running python source, that is the execute target
-    app_path = Path(__file__).resolve().parent
-    execute_target = "run.bat"
+
+app_path = Path(__file__).resolve().parent
+execute_target = "run.bat"
 
 
 # SCHEDULER CONFIGURATION
-def request_admin_escalation_or_exit():
+def request_admin_escalation():
     if platform.system() != "Windows":
         return
 
@@ -29,20 +23,21 @@ def request_admin_escalation_or_exit():
         return
 
     if sys.argv[0].endswith("exe"):
-        logging.fatal("This script is not intended to be built as a portable executable. It should be distributed as python source code.")
-        sys.exit()
+        logging.fatal("This script has not been tested built as an executable. It should be distributed as python source code.")
+        return
 
-    returncode = windll.shell32.ShellExecuteW(None, "runas", sys.executable, "-m catdv_resolve " + " ".join(sys.argv[1:]) + " --uac_escalated", None, 1)
+    returncode = windll.shell32.ShellExecuteW(None, "runas", sys.executable, str(Path(app_path, "scheduler.py")) + " " + " ".join(sys.argv[1:]), None, 1)
     success = returncode > 32
 
     if not success:
-        logging.fatal("UAC escalation was declined. Admin privileges are needed to install globally.")
-
-    sys.exit()
+        logging.fatal("UAC escalation was declined. Admin privileges are needed to run the scheduler.")
 
 
-def configScheduler():
-    logging.info("Running scheduler...")
+def windows_scheduler():
+    if platform.system() != "Windows":
+        raise OSError("Windows-only scheduler attempted to run. Platform does not appear to be windows.")
+
+    logging.info("Running Windows scheduler...")
     cur_tz_offset = datetime.now().astimezone().utcoffset()
     target_tz_offset = timedelta(hours=Config['SERVER_UTC'])
     delta = (cur_tz_offset - target_tz_offset)
@@ -66,6 +61,10 @@ def configScheduler():
         logging.info("Program scheduled successfully! (frequency: daily)")
         return
 
-    logging.error("PERMISSION ERROR: please run as administrator to enable task scheduling")
+    request_admin_escalation()
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    windows_scheduler()
     input()
-    sys.exit(1)
