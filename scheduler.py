@@ -26,7 +26,9 @@ def request_admin_escalation():
         logging.fatal("This script has not been tested built as an executable. It should be distributed as python source code.")
         return
 
-    returncode = windll.shell32.ShellExecuteW(None, "runas", sys.executable, str(Path(app_path, "scheduler.py")) + " " + " ".join(sys.argv[1:]), None, 1)
+    target_args = [str(Path(app_path, "scheduler.py"))]
+
+    returncode = windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(target_args), None, 1)
     success = returncode > 32
 
     if not success:
