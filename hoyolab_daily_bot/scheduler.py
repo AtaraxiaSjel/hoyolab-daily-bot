@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 from datetime import time, date, datetime, timedelta
 from zoneinfo import ZoneInfo
-from config import Config
+from .config import Config
 
 app_path = Path(__file__).resolve().parent.parent
 

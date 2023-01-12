@@ -5,7 +5,7 @@ from pathlib import Path
 from urllib import parse as urlparsing
 import browser_cookie3
 import logging
-from config import Config
+from .config import Config
 
 
 def cookies_not_found():
