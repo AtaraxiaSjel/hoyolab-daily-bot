@@ -1,7 +1,7 @@
 {
   "BROWSER": "all",
   "DELAY_MINUTE": 10,
-  "RANDOM_DELAY_MINUTE": 60,
+  "RANDOM_DELAY_MINUTE": 120,
   "ACT_ID": "e202102251931481",
   "DOMAIN_NAME": ".hoyoverse.com",
   "SCHEDULER_NAME": "HoyolabCheckInBot"
