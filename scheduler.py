@@ -4,14 +4,12 @@ import sys
 from pathlib import Path
 import subprocess
 from random import randint
-from datetime import time, datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from config import Config
 
 
 app_path = Path(__file__).resolve().parent
-
-utc_plus_eight_timezone = timezone(timedelta(hours=8))
-reset_happens_at = time(hour=4, tzinfo=utc_plus_eight_timezone)
+execute_target = "run.bat"
 
 
 # SCHEDULER CONFIGURATION
@@ -42,7 +40,6 @@ def windows_scheduler():
         raise OSError("Windows-only scheduler attempted to run. Platform does not appear to be windows.")
 
     logging.info("Running Windows scheduler...")
-    reset_happens_at = time(hour=4)
     cur_tz_offset = datetime.now().astimezone().utcoffset()
     target_tz_offset = timedelta(hours=Config['SERVER_UTC'])
     delta = (cur_tz_offset - target_tz_offset)
@@ -55,7 +52,7 @@ def windows_scheduler():
     ret_code = subprocess.call((
             f'powershell',
             f'$Time = New-ScheduledTaskTrigger -Daily -At {target_hour}:{target_minute}:{target_seconds} \n',
-            f'$Action = New-ScheduledTaskAction -Execute \'{str("run.bat")}\' {"" if Config["RANDOMIZE"] else "-Argument -R"} -WorkingDirectory "{str(app_path)}" \n',
+            f'$Action = New-ScheduledTaskAction -Execute \'{str(execute_target)}\' {"" if Config["RANDOMIZE"] else "-Argument -R"} -WorkingDirectory "{str(app_path)}" \n',
             f'$Setting = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -WakeToRun -RunOnlyIfNetworkAvailable -MultipleInstances Parallel -Priority 3 -RestartCount 30 -RestartInterval (New-TimeSpan -Minutes 1) \n',
             f'Register-ScheduledTask -Force -TaskName "{Config["SCHEDULER_NAME"]}" -Trigger $Time -Action $Action -Settings $Setting -Description "Genshin Hoyolab Daily Check-In Bot {Config.Meta.VER}" -RunLevel Highest'
         ),
