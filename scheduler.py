@@ -3,13 +3,14 @@ import logging
 import sys
 from pathlib import Path
 import subprocess
-from random import randint
-from datetime import datetime, timedelta
+from datetime import time, date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from config import Config
 
-
 app_path = Path(__file__).resolve().parent
-execute_target = "run.bat"
+
+asia_tz = ZoneInfo("Etc/GMT-8")
+reset_time_in_local_tz = datetime.combine(date.today(), time(hour=4, tzinfo=asia_tz)).astimezone()
 
 
 # SCHEDULER CONFIGURATION
@@ -34,36 +35,74 @@ def request_admin_escalation():
     if not success:
         logging.fatal("UAC escalation was declined. Admin privileges are needed to run the scheduler.")
 
+    sys.exit()
+
 
 def windows_scheduler():
     if platform.system() != "Windows":
         raise OSError("Windows-only scheduler attempted to run. Platform does not appear to be windows.")
 
     logging.info("Running Windows scheduler...")
-    cur_tz_offset = datetime.now().astimezone().utcoffset()
-    target_tz_offset = timedelta(hours=Config['SERVER_UTC'])
-    delta = (cur_tz_offset - target_tz_offset)
-    delta += timedelta(minutes=int(Config['DELAY_MINUTE']))
-    if Config['RANDOMIZE']:
-        delta += timedelta(seconds=randint(0, int(Config['RANDOM_RANGE'])))
-    target_hour = int((24 + (delta.total_seconds()//3600)) % 24)
-    target_minute = int((60 + (delta.total_seconds()//60)) % 60)
-    target_seconds = int(delta.total_seconds() % 60)
-    ret_code = subprocess.call((
-            f'powershell',
-            f'$Time = New-ScheduledTaskTrigger -Daily -At {target_hour}:{target_minute}:{target_seconds} \n',
-            f'$Action = New-ScheduledTaskAction -Execute \'{str(execute_target)}\' {"" if Config["RANDOMIZE"] else "-Argument -R"} -WorkingDirectory "{str(app_path)}" \n',
-            f'$Setting = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -WakeToRun -RunOnlyIfNetworkAvailable -MultipleInstances Parallel -Priority 3 -RestartCount 30 -RestartInterval (New-TimeSpan -Minutes 1) \n',
-            f'Register-ScheduledTask -Force -TaskName "{Config["SCHEDULER_NAME"]}" -Trigger $Time -Action $Action -Settings $Setting -Description "Genshin Hoyolab Daily Check-In Bot {Config.Meta.VER}" -RunLevel Highest'
+
+    target_time = (reset_time_in_local_tz + timedelta(minutes=Config["DELAY_MINUTE"])).time()
+
+    def format_params(params: [str]) -> str:
+        return " ".join("-" + param for param in params)
+
+    trigger_params = [
+        "Daily",
+        f"RandomDelay (New-TimeSpan -Minutes {Config['RANDOM_DELAY_MINUTE']})",
+        f"At {target_time.isoformat()}"
+    ]
+
+    action_params = [
+        "Execute 'run.bat'",
+        f"WorkingDirectory '{str(app_path)}'"
+    ]
+
+    settings_params = [
+        "StartWhenAvailable",
+        "AllowStartIfOnBatteries",
+        "DontStopIfGoingOnBatteries",
+        "WakeToRun",
+        "RunOnlyIfNetworkAvailable",
+        "MultipleInstances Parallel",
+        "Priority 3",
+        "RestartCount 30",
+        "RestartInterval (New-TimeSpan -Minutes 1)"
+    ]
+
+    task_params = [
+        f"TaskName '{Config['SCHEDULER_NAME']}'",
+        "Trigger $Time",
+        "Action $Action",
+        "Settings $Settings",
+        "Principal $Principal",
+        f"Description 'Genshin Hoyolab Daily Check-In Bot {Config.Meta.VER}'"
+    ]
+
+    result = subprocess.run((
+            f"powershell",
+            f"$Time = New-ScheduledTaskTrigger {format_params(trigger_params)} \n",
+            f"$Action = New-ScheduledTaskAction {format_params(action_params)} \n",
+            f"$Settings = New-ScheduledTaskSettingsSet {format_params(settings_params)} \n",
+            f"$Principal = New-ScheduledTaskPrincipal -UserID 'NT AUTHORITY\\SYSTEM' -LogonType ServiceAccount -RunLevel Highest \n",
+            f"Register-ScheduledTask {format_params(task_params)}"
         ),
-        creationflags=0x08000000
+        creationflags=0x08000000,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True
     )
 
-    if ret_code == 0:
+    if result.returncode == 0:
         logging.info("Program scheduled successfully! (frequency: daily)")
         return
 
     request_admin_escalation()
+
+    logging.fatal("Scheduler failed.")
+    logging.fatal(result.stderr)
 
 
 if __name__ == "__main__":
