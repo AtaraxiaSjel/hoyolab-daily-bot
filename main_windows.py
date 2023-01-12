@@ -1,4 +1,3 @@
-import argparse
 import time
 import sys
 import requests
@@ -7,8 +6,6 @@ from urllib import parse as urlparsing
 import browser_cookie3
 import logging
 from config import Config
-
-run_scheduler = True
 
 
 def cookies_not_found():
@@ -47,22 +44,6 @@ def check_for_token_cookie(cookies):
 # GET COOKIES
 cookies = get_cookies()
 check_for_token_cookie(cookies)
-
-# ARGPARSE
-help_text = 'Genshin Hoyolab Daily Check-In Bot\nWritten by darkGrimoire and Lordfirespeed'
-parser = argparse.ArgumentParser(description=help_text)
-parser.add_argument("-v", "--version",
-                    help="show program version", action="store_true")
-parser.add_argument("-R", "--runascron",
-                    help="run program without scheduler", action="store_true")
-
-args = parser.parse_args()
-if args.version:
-    logging.info(f"Bot ver. {Config.Meta.VER}")
-    sys.exit(0)
-if args.runascron:
-    run_scheduler = False
-
 
 # API FUNCTIONS
 def getDailyStatus():
@@ -201,10 +182,6 @@ if __name__ == "__main__":
             logging.StreamHandler()
         ]
     )
-
-    if run_scheduler or Config["RANDOMIZE"]:
-        import scheduler
-        scheduler.windows_scheduler()
 
     main()
     time.sleep(2)
