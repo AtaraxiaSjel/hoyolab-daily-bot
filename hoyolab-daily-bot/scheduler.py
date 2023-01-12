@@ -7,7 +7,7 @@ from datetime import time, date, datetime, timedelta
 from zoneinfo import ZoneInfo
 from config import Config
 
-app_path = Path(__file__).resolve().parent
+app_path = Path(__file__).resolve().parent.parent
 
 asia_tz = ZoneInfo("Etc/GMT-8")
 reset_time_in_local_tz = datetime.combine(date.today(), time(hour=4, tzinfo=asia_tz)).astimezone()
