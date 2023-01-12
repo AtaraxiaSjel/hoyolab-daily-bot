@@ -7,8 +7,8 @@ from typing import Any, Self
 class _Config:
 
     class Meta:
-        VER = '1.2'
-        UPDATE_CHANNEL = 'https://github.com/Lordfirespeed/hoyolab-daily-bot/releases/latest'
+        VER = "1.2"
+        UPDATE_CHANNEL = "https://github.com/Lordfirespeed/hoyolab-daily-bot/releases/latest"
 
     __instance: Self = None
 
@@ -16,14 +16,12 @@ class _Config:
     _data: dict[str, Any]
 
     _defaults = {
-        'BROWSER': 'all',
-        'SERVER_UTC': 8,
-        'DELAY_MINUTE': 0,
-        'RANDOMIZE': False,
-        'RANDOM_RANGE': 3600,
-        'ACT_ID': 'e202102251931481',
-        'DOMAIN_NAME': '.hoyoverse.com',
-        'SCHEDULER_NAME': 'HoyolabCheckInBot'
+        "BROWSER": "all",
+        "DELAY_MINUTE": 10,
+        "RANDOM_DELAY_MINUTE": 60,
+        "ACT_ID": "e202102251931481",
+        "DOMAIN_NAME": ".hoyoverse.com",
+        "SCHEDULER_NAME": "HoyolabCheckInBot"
     }
 
     def __init__(self):
