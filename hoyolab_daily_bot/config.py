@@ -7,7 +7,7 @@ from typing import Any, Self
 class _Config:
 
     class Meta:
-        VER = "1.2"
+        VER = "1.3"
         UPDATE_CHANNEL = "https://github.com/Lordfirespeed/hoyolab-daily-bot/releases/latest"
 
     __instance: Self = None
