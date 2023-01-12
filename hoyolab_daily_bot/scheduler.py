@@ -27,7 +27,7 @@ def request_admin_escalation():
         logging.fatal("This script has not been tested built as an executable. It should be distributed as python source code.")
         return
 
-    target_args = [str(Path(app_path, "scheduler.py"))]
+    target_args = ["-m hoyolab_daily_bot.scheduler"]
 
     returncode = windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(target_args), None, 1)
     success = returncode > 32
