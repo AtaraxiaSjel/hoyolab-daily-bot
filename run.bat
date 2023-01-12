@@ -1,1 +1,1 @@
-venv311\Scripts\activate && python main_windows.py %1
+venv311\Scripts\activate && python claim.py %1
