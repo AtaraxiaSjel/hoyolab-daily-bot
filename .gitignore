@@ -132,4 +132,4 @@ assets
 
 # project specific
 config.json
-.token
+.cookie

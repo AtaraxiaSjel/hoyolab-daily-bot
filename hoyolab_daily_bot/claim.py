@@ -6,6 +6,7 @@ import logging
 from typing import TypeAlias
 
 from .config import Config
+from .tokencookie import HoyoverseLoginCookieFinder
 
 JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
 
@@ -30,7 +31,7 @@ class HoyoverseAPISession(requests.Session):
     @staticmethod
     def format_headers(headers: dict[str, str]) -> dict[str, str]:
         formatted_headers = {}
-        for key, value in headers:
+        for key, value in headers.items():
             formatted_headers[key] = value.format(
                 act_id=Config["ACT_ID"]
             )
@@ -88,6 +89,8 @@ class DailyClaimBot:
 
     def __init__(self) -> None:
         self.session = HoyoverseAPISession()
+        cookies = HoyoverseLoginCookieFinder().jar
+        self.session.cookies.update(cookies)
 
     def already_claimed_today(self):
         resp = self.session.get_daily_claim_status()
