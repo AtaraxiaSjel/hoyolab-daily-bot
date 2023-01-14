@@ -45,6 +45,7 @@ def check_for_token_cookie(cookies):
 cookies = get_cookies()
 check_for_token_cookie(cookies)
 
+
 # API FUNCTIONS
 def getDailyStatus():
     headers = {
