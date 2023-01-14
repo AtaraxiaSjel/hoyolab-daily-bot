@@ -78,7 +78,11 @@ class HoyoverseLoginCookieFinder:
     def save_cookiejar_to_json(self) -> None:
         with open(self.cookie_path, "w") as save_file:
             json.dump(
-                [{"name": cookie.name, "value": cookie.value, "expires": cookie.expires} for cookie in self.jar],
+                [{
+                    "name": cookie.name,
+                    "value": cookie.value,
+                    "expires": datetime.fromtimestamp(cookie.expires).isoformat()
+                } for cookie in self.jar],
                 save_file,
                 indent=4
             )
