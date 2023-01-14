@@ -25,13 +25,17 @@ class _Config:
     }
 
     def __init__(self):
+        if self.__initialised:
+            return
         self._data = {}
         self.load_defaults()
         self.load_from_file()
+        self.__initialised = True
 
     def __new__(cls, *args, **kwargs) -> Self:
         if not cls.__instance:
             cls.__instance = super(_Config, cls).__new__(cls, *args, **kwargs)
+            cls.__instance.__initialised = False
         return cls.__instance
 
     def load_defaults(self):
