@@ -6,7 +6,7 @@ import logging
 from typing import TypeAlias
 
 from .config import Config
-from .tokencookie import HoyoverseLoginCookieFinder
+from .cookie import HoyoverseLoginCookieFinder
 
 JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
 
