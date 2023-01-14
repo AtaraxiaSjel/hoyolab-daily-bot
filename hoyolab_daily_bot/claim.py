@@ -151,4 +151,3 @@ if __name__ == "__main__":
 
     bot = DailyClaimBot()
     bot.main()
-    time.sleep(2)
