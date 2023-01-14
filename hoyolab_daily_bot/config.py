@@ -32,6 +32,7 @@ class _Config:
         self.load_from_file()
         self.__initialised = True
 
+    @staticmethod
     def __new__(cls, *args, **kwargs) -> Self:
         if not cls.__instance:
             cls.__instance = super(_Config, cls).__new__(cls, *args, **kwargs)
