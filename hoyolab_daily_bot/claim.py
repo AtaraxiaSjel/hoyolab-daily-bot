@@ -3,8 +3,9 @@ import requests
 from pathlib import Path
 from urllib.parse import urlparse, ParseResult
 import logging
-from .config import Config
 from typing import TypeAlias
+
+from .config import Config
 
 JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
 
