@@ -16,11 +16,11 @@ class _Config:
     _data: dict[str, Any]
 
     _defaults = {
-        "BROWSER": "all",
+        "COOKIE_BROWSER": "all",
+        "COOKIE_DOMAIN_NAME": ".hoyoverse.com",
         "DELAY_MINUTE": 10,
         "RANDOM_DELAY_MINUTE": 60,
         "ACT_ID": "e202102251931481",
-        "DOMAIN_NAME": ".hoyoverse.com",
         "SCHEDULER_NAME": "HoyolabCheckInBot"
     }
 
