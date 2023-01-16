@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 from abc import ABC, abstractmethod
 from typing import Generator
 
-from config import Config
+from .config import Config
 
 
 class SchedulerAbc(ABC):
