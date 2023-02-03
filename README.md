@@ -1,22 +1,21 @@
 # Genshin Hoyolab Daily Check-in Bot 📜🖋
-Genshin Impact's Hoyolab Daily Check-in Bot is here! The concept is simple, **run once, run forever**. You only need to run it once, then it will continue to run forever (except if you uninstall it ofc tehe)
+Genshin Impact's Hoyolab Daily Check-in Bot is here! The concept is simple, **run once, run forever**. You only need to run the scheduler once, then it will continue to run the claim script once daily, forever!
+
+Outdated demo:
 
 ![Demo Gif](demo/demo.gif)
 
-> #### Disclaimer: Only works on Windows (Linux & Mac version coming soon!)
+> #### Disclaimer: Scheduler only for Windows 
 
 # Features 🃏
-- **Run once, run forever**✨ The program will configure itself to run daily according to your localtime's reward claiming time. It will also autorun if your laptop/computer is in sleep mode, and will still run the next time your computer is on if you skipped the server refresh time.
-- If there's no connection, it will wait for a minute. No maximum retry.
+- Windows Scheduler to run claim daily, automatically
+- Claim script
 
 # Prerequisites 🎯
-- Windows OS
-- Have login to mihoyo's website at any browser (A login for a year is enough)
+- Login to mihoyo's website at any browser (A login for a year is enough)
 
 # How to use ✨
-1. [Download the newest release (.zip)](https://github.com/darkGrimoire/hoyolab-daily-bot/releases/latest) and extract
-2. Run program and click Yes when prompted. The program needs to be run as administrator to enable scheduling
-3. You can see what's the bot doing from `botlog.txt`.
+TBA
 
 # Configuration File (v1.1.5+)
 - **COOKIE_BROWSER**: You can target specific browser to be used for login. Please beware that this program doesn't support account chooser yet, so if you have multiple account you may use a browser you rarely use that only contains 1 account information.  
@@ -27,10 +26,12 @@ Currently supported browsers are: `firefox`, `chrome`, `chromium`, `opera`, and 
 - **ACT_ID** and **COOKIE_DOMAIN_NAME** shouldn't need changing. They are present for futureproofing.
 
 # How to update 📈
-Just overwrite the executable file haha
+TBA
 
 # Development Setup
-1. Setup virtualenv
+1. `git clone` the repository.
+2. `cd hoyolab-daily-bot`
+3. Setup Python 3.11 virtualenv
    ```
    pip install virtualenv
    python -m venv venv
@@ -40,7 +41,5 @@ Just overwrite the executable file haha
    ```
    pip install -r requirements.txt
    ```
-3. Run `python main_windows.py` or `run.bat` as administrator if you want to run the scheduling, or if not use `python main_windows.py -R` or `run.bat -R`.
-4. Use Pyinstaller to compile into binary.
-
-Feel free to open up issues for feature request, bugs, etc. or contribute.
+3. Run `python -m hoyolab_daily_bot.scheduler` to run the scheduler.
+Run `python -m hoyolab_daily_bot.claim` to claim today's rewards only. 

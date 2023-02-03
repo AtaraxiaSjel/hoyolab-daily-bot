@@ -42,7 +42,7 @@ class HoyoverseAPISession(requests.Session):
         try:
             response = self.request(method, target, *args, **kwargs)
         except requests.exceptions.ConnectionError as error:
-            logging.error("CONNECTION ERROR: cannot get daily check-in status")
+            logging.error("CONNECTION ERROR; Request could not be completed")
             logging.exception(error)
             raise error
 
@@ -127,7 +127,7 @@ class DailyClaimBot:
                 self.attempt_claim()
                 break
             except requests.exceptions.ConnectionError:
-                logging.info("Failed to claim, waiting before retry...")
+                logging.info("Failed to connect, waiting before retry...")
                 time.sleep(60)
                 logging.info("Retrying claim...")
             except Exception as error:

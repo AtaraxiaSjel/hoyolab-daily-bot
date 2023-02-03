@@ -7,7 +7,7 @@ from typing import Any, Self
 class _Config:
 
     class Meta:
-        VER = "1.4.2"
+        VER = "1.5.1"
         UPDATE_CHANNEL = "https://github.com/Lordfirespeed/hoyolab-daily-bot/releases/latest"
         API_URLS = {
             ".hoyoverse.com": "https://hk4e-api-os.hoyoverse.com/",
