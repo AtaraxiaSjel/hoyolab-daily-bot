@@ -24,7 +24,7 @@ class HoyoverseLoginCookieFinder:
             key,
             value,
             expires=int(expiry.timestamp()),
-            domain=Config["COOKIE_DOMAIN_NAME"]
+            domain=Config["ACCESS_VIA_DOMAIN"]
         )
 
     @staticmethod
@@ -37,7 +37,7 @@ class HoyoverseLoginCookieFinder:
 
     @staticmethod
     def get_browser_cookiejar():
-        domain_name = Config["COOKIE_DOMAIN_NAME"]
+        domain_name = Config["ACCESS_VIA_DOMAIN"]
         selected_brower = Config["COOKIE_BROWSER"].lower()
 
         try:
@@ -71,8 +71,8 @@ class HoyoverseLoginCookieFinder:
 
     def load_cookiejar_from_browser(self) -> None:
         cookies = self.get_browser_cookiejar()
-        token_cookie = self.find_cookie_of_name_in_cookiejar(cookies, "cookie_token")
-        account_id_cookie = self.find_cookie_of_name_in_cookiejar(cookies, "account_id")
+        token_cookie = self.find_cookie_of_name_in_cookiejar(cookies, "ltoken")
+        account_id_cookie = self.find_cookie_of_name_in_cookiejar(cookies, "ltuid")
         self.jar.set_cookie(token_cookie)
         self.jar.set_cookie(account_id_cookie)
 

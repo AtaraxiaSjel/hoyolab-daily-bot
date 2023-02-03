@@ -21,7 +21,7 @@ class HoyoverseAPISession(requests.Session):
         'Cache-Control': 'max-age=0',
     }
 
-    api_root: ParseResult = urlparse("https://hk4e-api-os.hoyoverse.com/")
+    api_root: ParseResult = urlparse(Config.Meta.API_URLS[Config["ACCESS_VIA_DOMAIN"]])
 
     def __init__(self):
         super(HoyoverseAPISession, self).__init__()

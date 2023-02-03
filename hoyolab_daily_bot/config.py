@@ -9,6 +9,10 @@ class _Config:
     class Meta:
         VER = "1.4.2"
         UPDATE_CHANNEL = "https://github.com/Lordfirespeed/hoyolab-daily-bot/releases/latest"
+        API_URLS = {
+            ".hoyoverse.com": "https://hk4e-api-os.hoyoverse.com/",
+            ".hoyolab.com": "https://sg-hk4e-api.hoyolab.com/"
+        }
 
     __instance: Self = None
 
@@ -17,7 +21,7 @@ class _Config:
 
     _defaults = {
         "COOKIE_BROWSER": "all",
-        "COOKIE_DOMAIN_NAME": ".hoyoverse.com",
+        "ACCESS_VIA_DOMAIN": ".hoyolab.com",
         "DELAY_MINUTE": 10,
         "RANDOM_DELAY_MINUTE": 60,
         "ACT_ID": "e202102251931481",
