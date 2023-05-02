@@ -7,7 +7,7 @@ from requests.cookies import create_cookie
 from http.cookiejar import Cookie, CookieJar
 from pathlib import Path
 import json
-from typing import Self
+from typing_extensions import Self
 
 from .config import Config
 
@@ -79,7 +79,7 @@ class HoyoverseLoginCookieFinder:
             raise ValueError(f"Couldn't find a valid required cookie '{name}'.")
 
         return found_cookie
-    
+
     def set_cookie_path(self, cookie_path):
         self.cookie_path = Path(cookie_path)
 
