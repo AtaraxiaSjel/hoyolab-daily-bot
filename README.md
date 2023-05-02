@@ -3,9 +3,9 @@ Honkai: Star Rail Hoyolab Daily Check-in Bot is here! The concept is simple, **r
 
 Outdated demo:
 
-![Demo Gif](demo/demo.gif)
+![Demo Gif](./demo.gif)
 
-> #### Disclaimer: Scheduler only for Windows 
+> #### Disclaimer: Scheduler only for Windows
 
 # Features 🃏
 - Windows Scheduler to run claim daily, automatically
@@ -17,8 +17,8 @@ Outdated demo:
 # How to use ✨
 TBA
 
-# Configuration File (v1.1.5+)
-- **COOKIE_BROWSER**: You can target specific browser to be used for login. Please beware that this program doesn't support account chooser yet, so if you have multiple account you may use a browser you rarely use that only contains 1 account information.  
+# Configuration File
+- **COOKIE_BROWSER**: You can target specific browser to be used for login. Please beware that this program doesn't support account chooser yet, so if you have multiple account you may use a browser you rarely use that only contains 1 account information.
 Currently supported browsers are: `firefox`, `chrome`, `chromium`, `opera`, and `edge`. The default is `all`.
 - **DELAY_MINUTE**: Sometimes, your PC is some minutes earlier than the server time. If you're experiencing reward already claimed whenever the bot started, please add some delay.
 - **RANDOM_DELAY_MINUTE**: Range in minutes for randomizing bot scheduler. Default is `60` (means the bot will starts delayed randomly within 1 hour after daily reset).
@@ -31,15 +31,15 @@ TBA
 # Development Setup
 1. `git clone` the repository.
 2. `cd hoyolab-daily-bot`
-3. Setup Python 3.11 virtualenv
+3. Setup Python 3 virtualenv
    ```
    pip install virtualenv
    python -m venv venv
-   venv\Scripts\activate
+   .\venv\Scripts\activate.bat
    ```
 2. Install dependencies
    ```
    pip install -r requirements.txt
    ```
 3. Run `python -m hoyolab_daily_bot.scheduler` to run the scheduler.
-Run `python -m hoyolab_daily_bot.claim` to claim today's rewards only. 
+Run `python -m hoyolab_daily_bot.claim` to claim today's rewards only.
