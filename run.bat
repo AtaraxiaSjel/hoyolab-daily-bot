@@ -1,1 +1,0 @@
-venv311\Scripts\activate && python -m hoyolab_daily_bot.claim %1
