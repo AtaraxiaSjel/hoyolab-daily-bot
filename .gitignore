@@ -133,3 +133,7 @@ assets
 # project specific
 config.json
 .cookie
+cookie*.json
+
+# nix
+result
