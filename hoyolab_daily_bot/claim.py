@@ -15,9 +15,9 @@ class HoyoverseAPISession(requests.Session):
     api_headers = {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
-        'Origin': 'https://webstatic-sea.hoyoverse.com',
+        'Origin': 'https://act.hoyolab.com',
         'Connection': 'keep-alive',
-        'Referer': 'https://webstatic-sea.hoyoverse.com/ys/event/signin-sea/index.html?act_id={act_id}&lang=en-us',
+        'Referer': 'https://act.hoyolab.com/bbs/event/signin/hkrpg/index.html?act_id={act_id}&lang=en-us',
         'Cache-Control': 'max-age=0',
     }
 
@@ -65,7 +65,7 @@ class HoyoverseAPISession(requests.Session):
 
     def get_daily_claim_status(self) -> JSON:
         return self.api_get(
-            "event/sol/info",
+            "event/luna/os/info",
             params={
                 "lang": "en-us",
                 "act_id": Config["ACT_ID"]
@@ -74,7 +74,7 @@ class HoyoverseAPISession(requests.Session):
 
     def post_daily_claim(self):
         return self.api_post(
-            "event/sol/sign",
+            "event/luna/os/sign",
             params={
                 "lang": "en-us"
             },

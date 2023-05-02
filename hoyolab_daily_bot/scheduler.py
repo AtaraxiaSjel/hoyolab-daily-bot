@@ -107,7 +107,7 @@ class WindowsScheduler(SchedulerAbc):
             "Action $Action",
             "Settings $Settings",
             "Principal $Principal",
-            f"Description 'Genshin Hoyolab Daily Check-In Bot {Config.Meta.VER}'"
+            f"Description 'Honkai: Star Rail Hoyolab Daily Check-In Bot {Config.Meta.VER}'"
         ]
 
         result = subprocess.run((

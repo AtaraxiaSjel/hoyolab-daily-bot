@@ -7,16 +7,27 @@ from requests.cookies import create_cookie
 from http.cookiejar import Cookie, CookieJar
 from pathlib import Path
 import json
+from typing import Self
 
 from .config import Config
 
 
 class HoyoverseLoginCookieFinder:
+    __instance: Self = None
     cookie_path = Path(".cookie")
 
     def __init__(self):
+        if self.__initialised:
+            return
         self.jar = CookieJar()
-        self.load()
+        self.__initialised = True
+
+    @staticmethod
+    def __new__(cls, *args, **kwargs) -> Self:
+        if not cls.__instance:
+            cls.__instance = super(HoyoverseLoginCookieFinder, cls).__new__(cls, *args, **kwargs)
+            cls.__instance.__initialised = False
+        return cls.__instance
 
     @staticmethod
     def hoyoverse_cookie(key: str, value: str, expiry: datetime) -> Cookie:
@@ -30,7 +41,7 @@ class HoyoverseLoginCookieFinder:
     @staticmethod
     def necessary_cookies_not_found():
         logging.info("Login information not found! Please login first to hoyolab once in Chrome/Firefox/Opera/Edge/Chromium before using the bot.")
-        logging.info("You only need to login once for a year to https://www.hoyolab.com/genshin/ for this bot to work.")
+        logging.info("You only need to login once for a year to https://www.hoyolab.com/ for this bot to work.")
         logging.error("LOGIN ERROR: cookies not found")
         sleep(5)
         sys.exit(1)
@@ -68,6 +79,9 @@ class HoyoverseLoginCookieFinder:
             raise ValueError(f"Couldn't find a valid required cookie '{name}'.")
 
         return found_cookie
+    
+    def set_cookie_path(self, cookie_path):
+        self.cookie_path = Path(cookie_path)
 
     def load_cookiejar_from_browser(self) -> None:
         cookies = self.get_browser_cookiejar()
@@ -109,18 +123,17 @@ class HoyoverseLoginCookieFinder:
 
     def load(self):
         try:
-            logging.info("Loading cookies from browser cookiejar..")
-            self.load_cookiejar_from_browser()
-            self.save_cookiejar_to_json()
-            return
-        except (ValueError, browser_cookie3.BrowserCookieError) as error:
-            logging.error(error)
-
-        try:
             logging.info("Loading backup cookies from JSON...")
             self.load_cookiejar_from_json()
             return
-        except OSError as error:
+        except (OSError, ValueError) as error:
             logging.error(error)
+            try:
+                logging.info("Loading cookies from browser cookiejar..")
+                self.load_cookiejar_from_browser()
+                self.save_cookiejar_to_json()
+                return
+            except (ValueError, browser_cookie3.BrowserCookieError) as error:
+                logging.error(error)
 
         self.necessary_cookies_not_found()

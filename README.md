@@ -1,5 +1,5 @@
-# Genshin Hoyolab Daily Check-in Bot 📜🖋
-Genshin Impact's Hoyolab Daily Check-in Bot is here! The concept is simple, **run once, run forever**. You only need to run the scheduler once, then it will continue to run the claim script once daily, forever!
+# Honkai: Star Rail Hoyolab Daily Check-in Bot 📜🖋
+Honkai: Star Rail Hoyolab Daily Check-in Bot is here! The concept is simple, **run once, run forever**. You only need to run the scheduler once, then it will continue to run the claim script once daily, forever!
 
 Outdated demo:
 
