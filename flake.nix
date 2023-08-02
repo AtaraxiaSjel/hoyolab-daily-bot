@@ -12,9 +12,9 @@
     ];
     pkgsFor = nixpkgs.legacyPackages;
   in {
-    overlays.default = _: prev: rec {
+    overlays.default = _: prev: {
       hoyolab-daily-bot = prev.callPackage ./default.nix {
-        version = "1.0";
+        version = "1.1";
       };
     };
     packages = genSystems (system:

@@ -23,9 +23,7 @@ class _Config:
         "COOKIE_BROWSER": "all",
         "ACCESS_VIA_DOMAIN": ".hoyolab.com",
         "DELAY_MINUTE": 10,
-        "RANDOM_DELAY_MINUTE": 60,
-        "ACT_ID": "e202303301540311",
-        "SCHEDULER_NAME": "HoyolabCheckInBot"
+        "ACT_ID": "e202303301540311"
     }
 
     def __init__(self):

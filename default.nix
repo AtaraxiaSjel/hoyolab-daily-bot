@@ -3,7 +3,7 @@
   python3Packages,
   version ? "git",
 }:
-with python3Packages; buildPythonApplication rec {
+with python3Packages; buildPythonApplication {
   pname = "hoyolab-daily-bot";
   inherit version;
 
@@ -17,7 +17,6 @@ with python3Packages; buildPythonApplication rec {
     requests
     browser-cookie3
     tzdata
-    python-crontab
     typing-extensions
     # dbus-python #FIXME: browser-cookie3 expect kdewallet (dbus)
   ];
